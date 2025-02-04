@@ -2,29 +2,62 @@ import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 class AuthService {
   getProfile() {
-    // TODO: return the decoded token
+    // Get the token from localStorage
+    const token = this.getToken();
+
+    // If the token exists, decode it and return the profile
+    if (token) {
+      try {
+        return jwtDecode<JwtPayload>(token);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return null; // Return null if decoding fails
+      }
+    }
+    return null; // If there's no token, return null
   }
 
   loggedIn() {
-    // TODO: return a value that indicates if the user is logged in
+    // Check if a user is logged in by checking if the token exists and is not expired
+    const token = this.getToken();
+    return token && !this.isTokenExpired(token); // If the token exists and is not expired, user is logged in
   }
   
   isTokenExpired(token: string) {
-    // TODO: return a value that indicates if the token is expired
+    try {
+      // Decode the token to check if it has an expiration claim
+      const decoded = jwtDecode<JwtPayload>(token);
+      
+      if (decoded.exp) {
+        // If there's an exp claim, check if the token is expired
+        return decoded.exp < Date.now() / 1000; // Compare the expiration with the current time (in seconds)
+      }
+      return false; // If no exp claim, treat the token as not expired
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return true; // If there's an error decoding the token, consider it expired
+    }
   }
 
-  getToken(): string {
-    // TODO: return the token
+  getToken(): string | null {
+    // Retrieve the token from localStorage
+    return localStorage.getItem('token');
   }
 
   login(idToken: string) {
-    // TODO: set the token to localStorage
-    // TODO: redirect to the home page
+    // Store the received token in localStorage
+    localStorage.setItem('token', idToken);
+
+    // Redirect to the Kanban board page
+    window.location.href = '/';
   }
 
   logout() {
-    // TODO: remove the token from localStorage
-    // TODO: redirect to the login page
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+
+    // Redirect to the login page
+    window.location.href = '/';
   }
 }
 
