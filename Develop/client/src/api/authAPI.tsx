@@ -3,8 +3,7 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 const login = async (userInfo: UserLogin) => {
   try {
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001'; // Ensure correct base URL for production
-    const response = await fetch(`${apiUrl}/auth/login`, {
+    const response = await fetch(`/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userInfo),
