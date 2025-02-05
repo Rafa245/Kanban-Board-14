@@ -24,10 +24,9 @@
   DeepSeek
   ## Links
   * Link to Github project: https://github.com/Rafa245/Kanban-Board-14
-  * Link deployed on Render: 
+  * Link deployed on Render: https://kanban-board-14-40c4.onrender.com/
 
   License: MIT 
-
   https://opensource.org/licenses/MIT
   
   ![alt text](<Assets/Screenshot 2025-02-03 at 11.47.22 PM.png>)
